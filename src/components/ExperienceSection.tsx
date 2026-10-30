@@ -7,8 +7,7 @@ import { playSound } from '../utils/audio';
 const expIcons = [Cpu, Settings2, Factory, Monitor];
 
 export default function ExperienceSection() {
-  const [showMore, setShowMore] = useState(false);
-  const exp = experienceData[0]; // Chittagong Door
+  const exp = experienceData[0];
 
   const toggleMore = () => {
     playSound('click');

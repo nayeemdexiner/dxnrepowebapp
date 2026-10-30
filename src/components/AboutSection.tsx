@@ -1,16 +1,39 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll } from 'motion/react';
 import { 
-  User, 
   MapPin, 
   Briefcase,
-  Cpu,
   Sparkles,
-  ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Quote
 } from 'lucide-react';
 import { personalData, experienceData } from '../data/portfolio';
 import { playSound } from '../utils/audio';
+
+// Word-by-word staggered reveal animation
+const containerWordsVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.045,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const singleWordVariant = {
+  hidden: { opacity: 0, y: 8, filter: 'blur(4px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.35,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
 
 export default function AboutSection() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -27,11 +50,18 @@ export default function AboutSection() {
     setIsExpanded(!isExpanded);
   };
 
+  const paragraphs = [
+    "I am Muhammad Nayeem.",
+    "While everyone is chasing the destination, I have learned to fall in love with the journey. Because I know every small step eventually builds a profound legacy.",
+    "I don't speak loud. My work speaks for itself. The late-night hours learning new craft, the resilient mornings rising from failures, and an unshakable belief in myself—these are my true assets.",
+    "My only competition is who I was yesterday. If I can outgrow that person, my day is already a victory."
+  ];
+
   const quickStats = [
-    { label: 'Role', value: exp.role.split('&')[0].trim(), icon: Briefcase },
-    { label: 'Company', value: exp.company, icon: Cpu },
-    { label: 'Location', value: 'Hajiganj, BD', icon: MapPin },
-    { label: 'Design Works', value: 'CNC & CAD Specialist', icon: Sparkles },
+    { label: 'Specialty', value: 'Sr. Computerized Numerical Control Programmer & Designer', icon: Briefcase },
+    { label: 'Practice', value: 'Independent Design Studio', icon: Sparkles },
+    { label: 'Location', value: 'Hajiganj, Chandpur, BD', icon: MapPin },
+    { label: 'Philosophy', value: 'Focus, Discipline & Daily Growth', icon: Quote },
   ];
 
   return (
@@ -77,40 +107,71 @@ export default function AboutSection() {
           >
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 sm:gap-5 items-stretch">
               
-              {/* Left: Bio & Highlights */}
+              {/* Left: Bengali Poetic Bio & Reflections (Animated Word by Word) */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.85, y: -24, filter: 'blur(6px)' }}
                 animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.06, type: 'spring', damping: 16, stiffness: 150 }}
-                className="md:col-span-7"
+                className="md:col-span-8"
               >
-                <div className="h-full glass-panel p-4 sm:p-7 rounded-2xl border border-neutral-800/80 flex flex-col justify-between space-y-4">
-                  <div className="space-y-2.5 sm:space-y-3">
+                <div className="h-full glass-panel p-5 sm:p-7 rounded-2xl border border-neutral-800/80 flex flex-col justify-between space-y-5">
+                  <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest bg-neutral-900 px-2 py-0.5 rounded border border-neutral-800">
-                        OVERVIEW
+                        PERSONAL STATEMENT
                       </span>
-                      <span className="flex items-center gap-1 text-[11px] font-mono text-emerald-400">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        Available for Projects
+                      <span className="flex items-center gap-1.5 text-[11px] font-mono text-neutral-300">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                        Muhammad Nayeem
                       </span>
                     </div>
 
-                    <h3 className="font-heading font-bold text-base sm:text-xl text-white">
-                      Muhammad Nayeem
-                    </h3>
-                    
-                    <p className="text-neutral-300 text-xs sm:text-sm leading-relaxed">
-                      Senior CNC Programmer &amp; Designer at <strong className="text-white">Chittagong Door</strong>. Specializing in millimeter-accurate 2D/3D toolpaths, 3D relief wood carvings, CAD/CAM workflow automation, and high-performance digital aesthetics.
-                    </p>
+                    {/* Word-by-Word Animated Bengali Statement */}
+                    <motion.div
+                      variants={containerWordsVariants}
+                      initial="hidden"
+                      animate="visible"
+                      className="space-y-3.5 pt-1"
+                    >
+                      {/* Paragraph 1: Headline */}
+                      <h3 className="text-lg sm:text-2xl font-bold text-white tracking-tight leading-snug">
+                        {paragraphs[0].split(' ').map((word, wIdx) => (
+                          <motion.span
+                            key={`p0-${wIdx}`}
+                            variants={singleWordVariant}
+                            className="inline-block mr-1.5 text-white font-extrabold"
+                          >
+                            {word}
+                          </motion.span>
+                        ))}
+                      </h3>
+
+                      {/* Paragraph 2, 3, 4: Deep Personal Philosophy */}
+                      {paragraphs.slice(1).map((para, pIdx) => (
+                        <p
+                          key={`p-block-${pIdx}`}
+                          className="text-neutral-200 text-xs sm:text-sm md:text-base leading-relaxed sm:leading-loose font-normal"
+                        >
+                          {para.split(' ').map((word, wIdx) => (
+                            <motion.span
+                              key={`p${pIdx + 1}-${wIdx}`}
+                              variants={singleWordVariant}
+                              className="inline-block mr-1.5 hover:text-white transition-colors"
+                            >
+                              {word}
+                            </motion.span>
+                          ))}
+                        </p>
+                      ))}
+                    </motion.div>
                   </div>
 
-                  {/* Quick Chips */}
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-neutral-800/60">
+                  {/* Clean Personal Chips */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-3 border-t border-neutral-800/60">
                     {quickStats.map((st) => {
                       const Icon = st.icon;
                       return (
-                        <div key={st.label} className="p-2 sm:p-2.5 rounded-xl bg-neutral-900/70 border border-neutral-800/60 flex items-center gap-2 min-w-0">
+                        <div key={st.label} className="p-2 sm:p-2.5 rounded-xl bg-neutral-900/70 border border-neutral-800/60 flex items-center gap-2.5 min-w-0">
                           <Icon className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
                           <div className="truncate min-w-0">
                             <div className="text-[9px] font-mono text-neutral-500 uppercase">{st.label}</div>
@@ -128,10 +189,10 @@ export default function AboutSection() {
                 initial={{ opacity: 0, scale: 0.85, y: -24, filter: 'blur(6px)' }}
                 animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.14, type: 'spring', damping: 16, stiffness: 150 }}
-                className="md:col-span-5"
+                className="md:col-span-4"
               >
                 <div className="h-full glass-panel p-4 sm:p-7 rounded-2xl border border-neutral-800/80 flex flex-col items-center justify-center text-center space-y-3 sm:space-y-4">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-700/80 shadow-lg">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-700/80 shadow-lg">
                     <img
                       src={personalData.profileImage}
                       alt="Muhammad Nayeem"
@@ -144,17 +205,17 @@ export default function AboutSection() {
                   </div>
                   
                   <div>
-                    <div className="text-sm font-bold text-white uppercase">Muhammad Nayeem</div>
-                    <div className="text-[11px] font-mono text-neutral-400">Hajiganj, Chandpur, BD</div>
+                    <div className="text-sm font-bold text-white uppercase tracking-wider">Muhammad Nayeem</div>
+                    <div className="text-[11px] font-mono text-neutral-400 mt-0.5">Hajiganj, Chandpur, Bangladesh</div>
                   </div>
 
                   <div className="w-full grid grid-cols-2 gap-2 pt-2 border-t border-neutral-800/60 text-center">
                     <div className="p-2 sm:p-2.5 rounded-xl bg-neutral-900/80 border border-neutral-700/60">
-                      <div className="text-sm font-bold text-white">CNC &amp; CAD</div>
+                      <div className="text-xs sm:text-sm font-bold text-white">Design & Code</div>
                       <div className="text-[9px] font-mono text-neutral-400">Specialist</div>
                     </div>
                     <div className="p-2 sm:p-2.5 rounded-xl bg-neutral-900/80 border border-neutral-700/60">
-                      <div className="text-sm font-bold text-white">3+ Yrs</div>
+                      <div className="text-xs sm:text-sm font-bold text-white">3+ Years</div>
                       <div className="text-[9px] font-mono text-neutral-400">Experience</div>
                     </div>
                   </div>

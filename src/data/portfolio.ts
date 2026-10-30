@@ -137,11 +137,11 @@ export const educationData: EducationItem[] = [
 export const experienceData: ExperienceItem[] = [
   {
     id: 'exp-1',
-    company: 'Chittagong Door',
-    role: 'Senior CNC Programmer & Computerized Design Specialist',
+    company: 'Independent Studio & Technical Practice',
+    role: 'Senior Computerized Numerical Control Programmer & Designer',
     period: '2022 — Present (3+ Years)',
     location: 'Hajiganj, Chandpur, Bangladesh',
-    description: 'Directing computerized design, 2D/3D CAD vectorization, and multi-axis CNC machine programming for luxury architectural woodwork, custom door carvings, and structural reliefs.',
+    description: 'Directing computerized design, 2D/3D CAD vectorization, and multi-axis CNC machine programming for luxury architectural woodwork and structural relief carvings.',
     responsibilities: [
       'Engineered and programmed 150+ high-precision 2D/3D CNC vector toolpaths and relief carving files using CAD/CAM software.',
       'Programmed multi-axis industrial CNC routers with zero-tolerance precision, optimizing spindle feeds, speeds, and tool life.',

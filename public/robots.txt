@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dxnrepowebapp.vercel.app/sitemap.xml
+Sitemap: https://www.tlevion.com/sitemap.xml
