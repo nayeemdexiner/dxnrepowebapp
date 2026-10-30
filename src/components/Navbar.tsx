@@ -53,8 +53,8 @@ export default function Navbar({
     { label: 'Education', shortLabel: 'Edu', href: '#education', id: 'education' },
     { label: 'Skills', shortLabel: 'Skills', href: '#skills', id: 'skills' },
     { label: 'Projects', shortLabel: 'Work', href: '#projects', id: 'projects' },
-    { label: 'Services', shortLabel: 'Service', href: '#services', id: 'services' },
-    { label: 'Contact', shortLabel: 'Contact', href: '#contact', id: 'contact' },
+    { label: 'Services', shortLabel: 'Serv', href: '#services', id: 'services' },
+    { label: 'Contact', shortLabel: 'Mail', href: '#contact', id: 'contact' },
   ];
 
   const handleLinkClick = (link: (typeof navLinks)[0]) => {
@@ -84,31 +84,30 @@ export default function Navbar({
   return (
     <header
       id="main-navbar"
-      className="fixed top-2 sm:top-5 left-0 right-0 z-50 pointer-events-none transition-all duration-300"
+      className="fixed top-5 sm:top-6 md:top-8 left-0 right-0 z-50 pointer-events-none transition-all duration-300"
     >
-      <div className="w-full max-w-5xl mx-auto px-2 sm:px-6 flex items-center justify-center">
+      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-center">
         {currentPage === 'skills' ? (
           <button
             onClick={() => onNavigate?.('home')}
-            className="pointer-events-auto flex items-center gap-2 px-5 py-2 rounded-full bg-neutral-950/90 text-white border border-white/20 hover:border-white/40 text-xs font-semibold backdrop-blur-xl shadow-xl cursor-pointer transition-all active:scale-95"
+            className="pointer-events-auto flex items-center gap-2 px-6 py-2.5 rounded-full bg-neutral-950/90 text-white border border-white/20 hover:border-white/40 text-xs sm:text-sm font-semibold backdrop-blur-2xl shadow-2xl cursor-pointer transition-all active:scale-95"
           >
             ← Back to Home
           </button>
         ) : (
           /* 
-            UNIFIED FULL-WIDTH COMPACT SLIDING NAVBAR (No 3-dot button on phone):
-            Spans gracefully across mobile screens with compact proportions, 
-            smooth sliding white pill indicator, and zero lag.
+            ORGANIC MINIMAL NAVBAR:
+            - Phone: Pushed comfortably downward (top-5) with compact width (max-w-[86vw]) so it floats naturally inside the curved bezel.
+            - PC: Wide, luxurious, spacious pill with generous padding and breathability.
           */
           <nav
             ref={navContainerRef}
             onMouseLeave={() => setHoveredSection(null)}
-            className={`pointer-events-auto w-full sm:w-auto max-w-[97vw] sm:max-w-none flex items-center justify-between sm:justify-center gap-0.5 sm:gap-1 bg-neutral-950/92 p-1 sm:p-1.5 rounded-full border border-white/20 backdrop-blur-2xl transition-all duration-300 overflow-x-auto no-scrollbar scroll-smooth ${
+            className={`pointer-events-auto w-auto max-w-[94vw] sm:max-w-none flex items-center justify-between sm:justify-center gap-[2px] xs:gap-1 sm:gap-2.5 md:gap-3.5 bg-neutral-950/85 px-1.5 sm:px-4 md:px-6 py-1 sm:py-2 md:py-2.5 rounded-full border border-white/[0.18] hover:border-white/35 backdrop-blur-2xl transition-all duration-300 ${
               isScrolled
-                ? 'shadow-[0_10px_35px_rgba(0,0,0,0.95),0_0_20px_rgba(255,255,255,0.08)] border-white/30'
-                : 'shadow-[0_8px_25px_rgba(0,0,0,0.85)]'
+                ? 'shadow-[0_14px_45px_rgba(0,0,0,0.95),0_0_25px_rgba(255,255,255,0.1)] border-white/30 bg-neutral-950/90'
+                : 'shadow-[0_10px_30px_rgba(0,0,0,0.85),0_0_15px_rgba(255,255,255,0.05)]'
             }`}
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {navLinks.map((link) => {
               const isCurrent = currentSection === link.id;
@@ -124,7 +123,7 @@ export default function Navbar({
                     e.preventDefault();
                     handleLinkClick(link);
                   }}
-                  className={`relative flex-1 sm:flex-initial px-2 sm:px-4 py-1.5 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-tight sm:tracking-wide text-center whitespace-nowrap transition-colors duration-150 cursor-pointer select-none shrink-0 ${
+                  className={`relative px-1.5 xs:px-2 sm:px-4 md:px-5 py-1 sm:py-2 rounded-full text-[9px] xs:text-[10px] sm:text-xs md:text-sm font-medium sm:font-semibold tracking-tighter xs:tracking-normal sm:tracking-wide text-center whitespace-nowrap transition-colors duration-200 cursor-pointer select-none shrink-0 ${
                     isCurrent
                       ? 'text-black font-bold'
                       : 'text-neutral-300 hover:text-white'
@@ -134,16 +133,16 @@ export default function Navbar({
                   {isCurrent && (
                     <motion.div
                       layoutId="autoSlidingWhitePillUnified"
-                      className="absolute inset-0 bg-white rounded-full shadow-[0_0_16px_rgba(255,255,255,0.5)]"
+                      className="absolute inset-0 bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.6)]"
                       transition={{
                         type: 'spring',
-                        stiffness: 450,
+                        stiffness: 420,
                         damping: 32,
                         mass: 0.8,
                       }}
                     />
                   )}
-                  {/* Label: Short version on ultra-narrow phones, full version on desktop */}
+                  {/* Label: Short version on ultra-narrow phones, full version on tablet/desktop */}
                   <span className="relative z-10 block sm:hidden">
                     {link.shortLabel}
                   </span>
